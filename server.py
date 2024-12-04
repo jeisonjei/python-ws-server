@@ -1,5 +1,10 @@
 import asyncio
 import websockets
+import ssl
+
+# Создаем SSL контекст
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain('certs/public.crt', 'certs/private.key')
 
 connections = set()
 history = []
@@ -7,7 +12,7 @@ server_url = None  # Переменная для хранения текущег
 
 async def get_server_url(server):
     global server_url
-    server_url = f'wss://yourusername.pythonanywhere.com:{server.sockets[0].getsockname()[1]}'
+    server_url = f'wss://0.0.0.0:{server.sockets[0].getsockname()[1]}'
     print(f'Server is running at {server_url}')
 
 async def chat(websocket):
@@ -30,7 +35,7 @@ async def chat(websocket):
         connections.remove(websocket)
 
 async def main():
-    server = await websockets.serve(chat, '', 8765, ssl=None)
+    server = await websockets.serve(chat, '', 8765, ssl=ssl_context)
     await get_server_url(server)
     await server.wait_closed()
 
