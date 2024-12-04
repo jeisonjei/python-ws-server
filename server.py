@@ -7,10 +7,10 @@ server_url = None  # Переменная для хранения текущег
 
 async def get_server_url(server):
     global server_url
-    server_url = f'ws://{server.sockets[0].getsockname()[0]}:{server.sockets[0].getsockname()[1]}'
+    server_url = f'wss://yourusername.pythonanywhere.com:{server.sockets[0].getsockname()[1]}'
     print(f'Server is running at {server_url}')
 
-async def chat(websocket, path):
+async def chat(websocket):
     global history
     connections.add(websocket)
 
@@ -30,7 +30,7 @@ async def chat(websocket, path):
         connections.remove(websocket)
 
 async def main():
-    server = await websockets.serve(chat, '0.0.0.0', 8765)
+    server = await websockets.serve(chat, '', 8765, ssl=None)
     await get_server_url(server)
     await server.wait_closed()
 
