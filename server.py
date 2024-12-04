@@ -26,6 +26,7 @@ async def chat(websocket):
     try:
         async for message in websocket:
             # Сохраняем сообщение в истории
+            print(f'>>> {message}')
             history.append(message)
 
             # Рассылаем сообщение всем подключённым клиентам
