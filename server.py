@@ -1,4 +1,5 @@
 import asyncio
+import json
 import websockets
 import ssl
 
@@ -27,6 +28,8 @@ async def chat(websocket):
         async for message in websocket:
             # Сохраняем сообщение в истории
             print(f'>>> {message}')
+            obj = json.loads(message)
+            print(f'>>> {obj}')
             history.append(message)
 
             # Рассылаем сообщение всем подключённым клиентам
@@ -36,7 +39,8 @@ async def chat(websocket):
         connections.remove(websocket)
 
 async def main():
-    server = await websockets.serve(chat, '', 8765, ssl=ssl_context)
+    server = await websockets.serve(chat, '', 8765, ssl=None)
+    # server = await websockets.serve(chat, '', 8765, ssl=ssl_context)
     await get_server_url(server)
     await server.wait_closed()
 
