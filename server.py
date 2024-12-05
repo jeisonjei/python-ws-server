@@ -4,7 +4,7 @@ import ssl
 
 # Создаем SSL контекст
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain('certs/public.crt', 'certs/private.key')
+ssl_context.load_cert_chain('certs/95.182.120.168.pem', 'certs/95.182.120.168-key.pem')
 
 connections = set()
 history = []
