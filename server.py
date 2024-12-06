@@ -13,7 +13,7 @@ server_url = None  # Переменная для хранения текущег
 
 async def get_server_url(server):
     global server_url
-    server_url = f'wss://0.0.0.0:{server.sockets[0].getsockname()[1]}'
+    server_url = f'wss://95.182.120.168:{server.sockets[0].getsockname()[1]}'
     print(f'Server is running at {server_url}')
 
 async def chat(websocket):
@@ -40,7 +40,6 @@ async def chat(websocket):
 
 async def main():
     server = await websockets.serve(chat, '', 8765, ssl=ssl_context)
-    # server = await websockets.serve(chat, '', 8765, ssl=ssl_context)
     await get_server_url(server)
     await server.wait_closed()
 
